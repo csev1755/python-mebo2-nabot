@@ -40,11 +40,11 @@ class Robot():
         CLAW_POSITION = "N"
         CAL_ARM = "DE"
         CAL_WRIST_UD = "DI"
-        CAL_WRIST_ROTATE = "DQ" #: test
+        CAL_WRIST_ROTATE = "DQ"
         CAL_CLAW = "Dg"
         CAL_ALL = "D_"
-        QUERY_REG = auto() #: Exact function unknown
-        SET_REG = auto() #: Exact function unknown
+        QUERY_REG = "" #: Exact function unknown
+        SET_REG = "" #: Exact function unknown
         SAVE_REG = "REG=FLUSH" #: Exact function unknown
         QUERY_EVENT = "*" #: Exact function unknown
 
@@ -94,8 +94,10 @@ class Robot():
             Robot()
         return Robot.__instance
     
-    def __init__(self):
+    def __init__(self, ip_address="192.168.99.1"):
         """Initialize the connection and send initialization commands.
+        Args:
+            ip_address (str, optional): IP address of the robot. Defaults to 192.168.99.1.
         
         Raises:
             Exception: If trying to create multiple instances (singleton violation)
@@ -106,6 +108,7 @@ class Robot():
             Robot.__instance = self
 
         self.logger = logging.getLogger('Robot Commands')
+        self.ip_address = ip_address
 
         init_commands = [
             self.Command.ACEAA, 
@@ -176,7 +179,7 @@ class Robot():
             except requests.RequestException as e:
                 self.logger.warning(f"Attempt {attempt + 1}/{retries} failed: {e}")
                 # sometimes port 80 closes, poking 554 (RTSP) seems to open it back up
-                try: requests.get("http://192.168.99.1:554") 
+                try: requests.get(f"http://{self.ip_address}:554") 
                 except: pass          
                 time.sleep(delay)
 
@@ -193,7 +196,7 @@ class Robot():
         Returns:
             dict: JSON response or False
         """
-        URL = "http://192.168.99.1/ajax/command.json?" + self._gen_single_cmd(cmd, number=1, value=value)
+        URL = f"http://{self.ip_address}/ajax/command.json?" + self._gen_single_cmd(cmd, number=1, value=value)
         try:
             return self._send_request(URL).json()
         except:
@@ -318,7 +321,7 @@ class Robot():
         Args:
             joint_dict (dict): Dictionary mapping joint/motor names to their command values
         """
-        URL = "http://192.168.99.1/ajax/command.json?"
+        URL = f"http://{self.ip_address}/ajax/command.json?"
 
         for i, (name, value) in enumerate(joint_dict.items()):
             if i > 0:
@@ -668,7 +671,7 @@ class Robot():
                 '-f', 'alaw', 
                 '-ar', '8000', 
                 '-ac', '1', 
-                'udp://192.168.99.1:8828?connect=1'
+                f'udp://{Robot.getInstance().ip_address}:8828?connect=1'
             ]
 
             # numpy specific params
@@ -768,7 +771,7 @@ class Robot():
             ffmpeg_cmd = [
                 'ffmpeg',
                 '-loglevel', 'quiet',
-                '-i', "rtsp://192.168.99.1/media/stream2",
+                '-i', f"rtsp://{Robot.getInstance().ip_address}/media/stream2",
                 '-f', 's16le',
                 '-acodec', 'pcm_s16le',
                 '-ac', '1',
@@ -802,7 +805,7 @@ class Robot():
         
         def open(self):
             """Open camera connection."""
-            self.cap = cv2.VideoCapture("rtsp://192.168.99.1/media/stream2")
+            self.cap = cv2.VideoCapture(f"rtsp://{Robot.getInstance().ip_address}/media/stream2")
             self.cap.isOpened()
 
         def read(self):
