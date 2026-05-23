@@ -1,6 +1,15 @@
-=================
-Movement
-=================
+Examples
+========
+
+Code examples for the module are available in ``examples/``
+
+Install Example Code Dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: sh
+
+   pip install -r examples/requirements.txt
+
 Move the Robot
 ~~~~~~~~~~~~~~
 
@@ -21,14 +30,3 @@ Retrieve Joint Positions
 
    robot = mebo2_nabot.Robot()
    print(robot.get_joint_positions())
-
-.. autoclass:: mebo2_nabot.Robot
-   :members:
-   :exclude-members: Camera, Command, Position, Speaker, Microphone, getInstance
-
-.. autoclass:: mebo2_nabot.Robot.Command
-   :members:
-   :undoc-members:
-.. autoenum:: mebo2_nabot.Robot.Position
-   :members:
-   :undoc-members:

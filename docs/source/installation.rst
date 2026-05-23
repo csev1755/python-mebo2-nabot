@@ -1,41 +1,29 @@
-=================
+============
 Installation
-=================
+============
 
-1. Create a Virtual Environment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#. **Create a Virtual Environment**
 
-::
+   .. code-block:: sh
 
-   python3 -m venv venv
+      python3 -m venv venv
 
-2. Activate the Virtual Environment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#. **Activate the Virtual Environment**
 
-Windows
-^^^^^^^
+   - Windows
 
-::
+     .. code-block:: bat
 
-   venv\Scripts\activate
+        venv\Scripts\activate
 
-macOS / Linux
-^^^^^^^^^^^^^
+   - macOS / Linux
 
-.. code-block:: sh
+     .. code-block:: sh
 
-   source venv/bin/activate
+        source venv/bin/activate
 
-3. Install Module
-~~~~~~~~~~~~~~~~~
+#. **Install Module**
 
-::
+   .. code-block:: sh
 
-   pip3 install .
-
-4. Install Example Dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-   pip3 install -r examples/requirements.txt
+      pip install .

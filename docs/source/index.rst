@@ -5,11 +5,14 @@
 
 mebo2_nabot documentation
 =========================
-This module allows control of the Mebo 2.0 and Nabot AI robot toys.
+This module allows control of the Mebo 2.0 and Nabot AI robot toys, including movement, video, and audio.
 
 .. toctree::
+
    installation
-   movement
-   video-audio
-   :maxdepth: 1
-   :caption: Contents:     
+   examples
+
+.. toctree::
+   :maxdepth: 2
+
+   class
