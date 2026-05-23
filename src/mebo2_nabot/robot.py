@@ -1,12 +1,11 @@
-import time
-import logging
-import requests
-import os
-import subprocess
 import cv2
+import logging
+import os
+import requests
+import subprocess
+import time
 import numpy as np
-from enum import Enum, auto
-import enum_tools.documentation
+from enum import Enum
 
 class Robot():
 

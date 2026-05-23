@@ -1,18 +1,32 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.11.15,<0.12.0"]
+build-backend = "uv_build"
 
 [project]
-name = "mebo2_nabot"
+name = "mebo2-nabot"
 authors = [
     {name = "Charlie Seversin", email = "charlie@cssev.net"}
 ]
 description = "Python library to control Mebo 2.0 and Nabot AI robots"
 version = "0.0.1"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 dependencies = [
-    "requests",
     "numpy",
-    "opencv_python"
+    "opencv_python",
+    "requests"
+]
+
+[dependency-groups]
+docs = [
+    "enum-tools",
+    "sphinx",
+    "sphinx-toolbox"
+]
+
+[project.optional-dependencies]
+examples = [
+    "pyaudio",
+    "ultralytics",
+    "vosk"
 ]
