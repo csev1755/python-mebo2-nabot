@@ -1,15 +1,15 @@
-import threading
-from vosk import Model, KaldiRecognizer
 import json
-import time
 import mebo2_nabot
+import threading
+import time
+from vosk import Model, KaldiRecognizer
 
 class VoskSpeechRecognizer:
-    def __init__(self, model_path='downloads/vosk-model-small-en-us-0.15', rate=16000):
+    def __init__(self, robot, model_path='downloads/vosk-model-small-en-us-0.15', rate=16000):
         print("Loading Vosk model...")
         self.model = Model(model_path)
         self.recognizer = KaldiRecognizer(self.model, rate)
-        self.robot = mebo2_nabot.Robot()
+        self.robot = robot
 
     def process_stream(self, audio_stream):
         print("Listening for speech...")
@@ -39,11 +39,12 @@ class VoskSpeechRecognizer:
             self.robot.claw_open(100)   
 
 def start_speech_recognition():
-    audio_input = mebo2_nabot.Robot.Microphone(rate=16000)
+    robot = mebo2_nabot.Robot()
+
+    audio_input = robot.Microphone(rate=16000)
     audio_input.open()
 
-    recognizer = VoskSpeechRecognizer(rate=16000)
-
+    recognizer = VoskSpeechRecognizer(robot=robot, rate=16000)
     recognition_thread = threading.Thread(target=recognizer.process_stream, args=(audio_input.read(),))
     recognition_thread.daemon = True
     recognition_thread.start()
