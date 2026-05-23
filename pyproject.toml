@@ -20,7 +20,7 @@ dependencies = [
 [dependency-groups]
 docs = [
     "enum-tools",
-    "sphinx",
+    "sphinx<9.0.0",
     "sphinx-toolbox"
 ]
 
